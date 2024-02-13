@@ -2,7 +2,9 @@ import sqlite3
 from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base, validates #imports a database session
 from sqlalchemy.exc import IntegrityError # importing errors
-#Define declarative_base()                                  
+#Define declarative_base() 
+# connection = sqlite3.connect("board_game.db")                                 
+# cursor = connection.cursor()
 Base = declarative_base() #maps our classes to an obj which makes the "meta data"
 
 class PlayingBoard(Base):
@@ -81,11 +83,13 @@ if __name__ =="__main__":
           except ValueError:
             print("invalid input")
             continue
+          
           if 1 <= col_choice <= 7:
             print("Hello")
             sql_command = f'''
-            UPDATE Playing_Board SET {col_choice}
+            UPDATE Playing_Board SET col1 = {player1.symbol} WHERE id = 6
             '''
+            cursor.execute(sql_command)
             turn = turn + 1
             print(turn)
           elif col_choice == 0:
