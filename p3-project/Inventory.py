@@ -57,9 +57,9 @@ if __name__ =="__main__":
     print("|  2: Delete a Employee or Warehouse")
     print("|  3: Update a Employee or Warehouse")
     print("|  4: View total gross for a Warehouse by ID")
-    print("|  5: Find a Employee or Warehouse? by name/location")
+    print("|  5: Find a Employee or Warehouse by name/location")
     print("|  6: tbd")
-    print("|  7: tbd")
+    print("|  7: ???")
     print("|  8: Exit")
     print("-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-+-=-=-")
     usr_input = input("Enter a number (1-8) and press enter to continue: ")
@@ -92,7 +92,7 @@ if __name__ =="__main__":
         elif seconday_input == "8":
           break
         else:
-          print("Invalid Input")
+          print("Please enter a number: 1, 2 or 8")
         
     elif usr_input == "2":
       while True:
@@ -116,7 +116,7 @@ if __name__ =="__main__":
         elif sec_npt == "8":
           break
         else:
-          print("Invalid input")
+          print("Please enter a number: 1, 2 or 8")
         
     elif usr_input == "3":
       while True:
@@ -134,13 +134,13 @@ if __name__ =="__main__":
               try:
                 updated_emp.salary = int(salary)
               except ValueError:
-                print("invalid input")
+                print("Please enter a valid number of money, no commas or dollar signs")
                 continue
             if length_of_emp:
               try:  
                 updated_emp.length_of_employment = int(length_of_emp)
               except ValueError:
-                print("invalid input")
+                print("Please enter a valid number of months, no commas")
                 continue
             print(f"Successfully updated Employee {updated_emp.name}, salary: ${updated_emp.salary}, length of employment: {updated_emp.length_of_employment}")
             session.commit()
@@ -160,13 +160,13 @@ if __name__ =="__main__":
               try:
                 updated_ware.sqft = int(sqft)
               except ValueError:
-                print("invalid input")
+                print("Please enter a valid number of sqft, only the numbers no sign")
                 continue
             if revenue:
               try:  
                 updated_emp.revenue = int(revenue)
               except ValueError:
-                print("invalid input")
+                print("Please enter a valid number of money, no commas or dollar signs")
                 continue
             print(f"Successfully updated Warehouse {updated_ware.location}, squarefeet: {updated_ware.sqft}sqft, revenue: ${updated_ware.revenue}")
             session.commit()
@@ -174,24 +174,64 @@ if __name__ =="__main__":
         elif seconday_input == "8":
           break
         else:
-          print("Invalid input")
+          print("Please enter a number: 1, 2 or 8")
           
           
     elif usr_input == "4":
-      query_id = int(input("Enter the ID of the warehouse: "))
-      total_employees = session.query(Employee).filter_by(warehouse_id=query_id).all()
-      warehouse = session.query(Warehouse).filter_by(id=query_id).first()
-      i=0
-      salary_amt=0
-      for employee in total_employees:
-        # print(f"{employee.name} has a salary of ${employee.salary}")
-        salary_amt = salary_amt + employee.salary
-        i += 1
-      gross_percent = round((salary_amt / warehouse.revenue), 3)
-      print(f"Warehouse {query_id}, is making ${warehouse.revenue} and spending {gross_percent}% on employees. Total number of Employees: {i} employees that total ${salary_amt} spent. ")
+      while True:
+        query_id = input("Enter the ID of the warehouse (88 to exit): ")
+        if query_id == "88":
+          break
+        try:
+          query_id = int(query_id)
+        except ValueError:
+          print("ID must be a number")
+          continue
+        if query_id:#core logic for the method
+          total_employees = session.query(Employee).filter_by(warehouse_id=query_id).all()
+          warehouse = session.query(Warehouse).filter_by(id=query_id).first()
+          i=0
+          salary_amt=0
+          for employee in total_employees:
+            # print(f"{employee.name} has a salary of ${employee.salary}")
+            salary_amt = salary_amt + employee.salary
+            i += 1
+          gross_percent = round((salary_amt / warehouse.revenue), 3)
+          print(f"Warehouse {query_id}, is making ${warehouse.revenue} and spending {gross_percent}% on employees. Total number of Employees: {i} employees that total ${salary_amt} spent. ")
       
     elif usr_input == "5":#find a employee by name,
-      print("pressed 5")
+      while True:
+        seconday_input = input("Enter 1 for employee, 2 for warehouse, or 8 to exit: ")
+        if seconday_input == "1":
+          while True:
+            query_emp_name = input("Enter the name of employee (Case Sensitive) 8 to exit: ")
+            query_emp_retrieved = session.query(Employee).filter_by(name=query_emp_name).first()
+            if query_emp_retrieved:
+              print(f"Employee Found! \nID:{query_emp_retrieved.id}\nSalary: ${query_emp_retrieved.salary}\nLength of Employment: {query_emp_retrieved.length_of_employment}\nWarehouse: {query_emp_retrieved.warehouse_id}")
+              break
+            elif query_emp_name == "8":
+              break
+            else:
+              print("Employee not found")
+              continue
+          
+        elif seconday_input == "2":
+          while True:
+            query_ware_loc = input("Enter the name of wwarehouse (Case Sensitive) 8 to exit: ")
+            query_wareloc_retrieved = session.query(Warehouse).filter_by(location=query_ware_loc).first()
+            if query_wareloc_retrieved:
+              print(f"Warehouse Found! \nLocation: {query_wareloc_retrieved.location}\nRevenue: ${query_wareloc_retrieved.revenue}\nSquare Feet: {query_wareloc_retrieved.sqft}")
+              break
+            elif query_ware_loc == "8":
+              break
+            else:
+              print("Warehouse not found")
+              continue
+            
+        elif seconday_input == "8":
+          break
+        else:
+          print("Please enter a input of 1, 2 or 8")
     elif usr_input == "6":
       print("pressed 6")
     elif usr_input == "7":
@@ -213,6 +253,6 @@ if __name__ =="__main__":
       print("Cya later aligator :)")
       break
     else:
-      print("Invalid input")
+      print("Please enter a number: 1 - 8")
    
     
