@@ -70,10 +70,11 @@ if __name__ =="__main__":
         if seconday_input == "1":
           print("Entering a new Employee to the database.")#Start with name, salary, length of employment, warehouse id"
           name = input("Enter a Name: ")
+          name_lower = name.lower()
           salary = int(input("Enter salary amount, no commas: "))
           length = int(input("How long have they worked here in months, 0 by default: "))
           warehouse = int(input("What warehouse ID: "))
-          new_employee = Employee(name=name, salary=salary, length_of_employment=length, warehouse_id= warehouse)
+          new_employee = Employee(name=name_lower, salary=salary, length_of_employment=length, warehouse_id= warehouse)
           print(f"Successfully added a new employee: {new_employee.name}, ${new_employee.salary}, {new_employee.length_of_employment}, at warehouse {new_employee.warehouse_id}")
           session.add(new_employee)
           session.commit()
@@ -82,9 +83,10 @@ if __name__ =="__main__":
         elif seconday_input == "2":
           print("Entering a new Warehouse")
           location = input("Enter location:  ")
+          location_lower = location.lower()
           sqft = int(input("Enter total sqft, no commas: "))
           revenue = int(input("Enter how much revenue it makes, no commas: "))
-          new_warehouse = Warehouse(location=location, revenue=revenue, sqft=sqft)
+          new_warehouse = Warehouse(location=location_lower, revenue=revenue, sqft=sqft)
           print(f"Successfully added new warehouse: {new_warehouse.location}, {new_warehouse.sqft}, making ${new_warehouse.revenue}")
           session.add(new_warehouse)
           session.commit()
@@ -205,9 +207,11 @@ if __name__ =="__main__":
         if seconday_input == "1":
           while True:
             query_emp_name = input("Enter the name of employee (Case Sensitive) 8 to exit: ")
-            query_emp_retrieved = session.query(Employee).filter_by(name=query_emp_name).first()
+            query_emp_name_lower = query_emp_name.lower()
+            
+            query_emp_retrieved = session.query(Employee).filter_by(name=query_emp_name_lower).first()
             if query_emp_retrieved:
-              print(f"Employee Found! \nID:{query_emp_retrieved.id}\nSalary: ${query_emp_retrieved.salary}\nLength of Employment: {query_emp_retrieved.length_of_employment}\nWarehouse: {query_emp_retrieved.warehouse_id}")
+              print(f"Employee Found! \nID:{query_emp_retrieved.id}\nName: {query_emp_name.name}\nSalary: ${query_emp_retrieved.salary}\nLength of Employment: {query_emp_retrieved.length_of_employment}\nWarehouse: {query_emp_retrieved.warehouse_id}")
               break
             elif query_emp_name == "8":
               break
@@ -217,7 +221,7 @@ if __name__ =="__main__":
           
         elif seconday_input == "2":
           while True:
-            query_ware_loc = input("Enter the name of wwarehouse (Case Sensitive) 8 to exit: ")
+            query_ware_loc = input("Enter the name of warehouse (Case Sensitive) 8 to exit: ")
             query_wareloc_retrieved = session.query(Warehouse).filter_by(location=query_ware_loc).first()
             if query_wareloc_retrieved:
               print(f"Warehouse Found! \nLocation: {query_wareloc_retrieved.location}\nRevenue: ${query_wareloc_retrieved.revenue}\nSquare Feet: {query_wareloc_retrieved.sqft}")

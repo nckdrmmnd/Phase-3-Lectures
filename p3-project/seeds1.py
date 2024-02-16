@@ -16,7 +16,7 @@ if __name__ == "__main__":
   fake = Faker()
   
   for _ in range(100):
-    employee = Employee(name=fake.name(), 
+    employee = Employee(name=fake.name().lower(), 
                         salary= fake.random_int(min=40000, max=120000), 
                         length_of_employment= fake.random_int(min=1, max=120),
                         warehouse_id= fake.random_int(min=1, max=10)
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     session.add(employee)
     session.commit()
   for _ in range(10):
-    warehouse = Warehouse(location= fake.city(), 
+    warehouse = Warehouse(location= fake.city().lower(), 
                           sqft= fake.random_int(min=9000, max=40000), 
                           revenue= fake.random_int(min= 1500000, max= 5000000) 
                           )
