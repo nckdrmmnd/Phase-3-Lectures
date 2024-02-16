@@ -206,12 +206,12 @@ if __name__ =="__main__":
         seconday_input = input("Enter 1 for employee, 2 for warehouse, or 8 to exit: ")
         if seconday_input == "1":
           while True:
-            query_emp_name = input("Enter the name of employee (Case Sensitive) 8 to exit: ")
+            query_emp_name = input("Enter the name of employee, 8 to exit: ")
             query_emp_name_lower = query_emp_name.lower()
             
             query_emp_retrieved = session.query(Employee).filter_by(name=query_emp_name_lower).first()
             if query_emp_retrieved:
-              print(f"Employee Found! \nID:{query_emp_retrieved.id}\nName: {query_emp_name.name}\nSalary: ${query_emp_retrieved.salary}\nLength of Employment: {query_emp_retrieved.length_of_employment}\nWarehouse: {query_emp_retrieved.warehouse_id}")
+              print(f"Employee Found! \nID:{query_emp_retrieved.id}\nName: {query_emp_retrieved.name}\nSalary: ${query_emp_retrieved.salary}\nLength of Employment: {query_emp_retrieved.length_of_employment}\nWarehouse: {query_emp_retrieved.warehouse_id}")
               break
             elif query_emp_name == "8":
               break
@@ -221,10 +221,11 @@ if __name__ =="__main__":
           
         elif seconday_input == "2":
           while True:
-            query_ware_loc = input("Enter the name of warehouse (Case Sensitive) 8 to exit: ")
-            query_wareloc_retrieved = session.query(Warehouse).filter_by(location=query_ware_loc).first()
+            query_ware_loc = input("Enter the name of warehouse, 8 to exit: ")
+            query_ware_loc_lower = query_ware_loc.lower()
+            query_wareloc_retrieved = session.query(Warehouse).filter_by(location=query_ware_loc_lower).first()
             if query_wareloc_retrieved:
-              print(f"Warehouse Found! \nLocation: {query_wareloc_retrieved.location}\nRevenue: ${query_wareloc_retrieved.revenue}\nSquare Feet: {query_wareloc_retrieved.sqft}")
+              print(f"Warehouse Found! \niD: {query_wareloc_retrieved.id}\nLocation: {query_wareloc_retrieved.location}\nRevenue: ${query_wareloc_retrieved.revenue}\nSquare Feet: {query_wareloc_retrieved.sqft}")
               break
             elif query_ware_loc == "8":
               break
